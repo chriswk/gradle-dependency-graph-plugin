@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/groups/public/'
+        }
+    }
+    dependencies {
+        classpath 'org.ajoberstar:gradle-git:0.2.3'
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'signing'
+apply plugin: 'github-pages'
+apply plugin: 'maven'
+
+group = "com.chriswk.gradle"
+description = "Dependency Graph plugin"
+version = "0.1"
+ext.neo4jVersion = "1.8.1"
+repositories {
+    mavenCentral()
+    maven {
+        name "Neo4j Release"
+        url "http://m2.neo4j.org/"
+    }
+    maven {
+        name "neo4j Snapshots"
+        url "http://m2.neo4j.org/snapshots"
+    }
+}
+
+dependencies {
+    groovy localGroovy()
+    compile gradleApi()
+    compile "org.neo4j:neo4j-rest-graphdb:1.8"
+}

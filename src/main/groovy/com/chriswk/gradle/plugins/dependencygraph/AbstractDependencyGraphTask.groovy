@@ -72,11 +72,6 @@ class AbstractDependencyGraphTask extends DefaultTask {
     }
 
     def configureAbstractGraphTask(final Project project, AbstractDependencyGraphTask task) {
-        println(project.dependencyGraph.graphServerUrl)
-        println(project.dependencyGraph.graphServerPath)
-        println(project.dependencyGraph.graphServerPort)
-        println(project.dependencyGraph.graphServerUsername)
-        println(project.dependencyGraph.graphServerPassword)
         task.setGraphServerUrl(project.dependencyGraph.graphServerUrl)
         task.setGraphServerPath(project.dependencyGraph.graphServerPath)
         task.setGraphServerPort(project.dependencyGraph.graphServerPort)

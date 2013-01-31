@@ -16,8 +16,8 @@ class GraphRead extends AbstractDependencyGraphTask {
 
 	def listDependants() {
 		RestIndex<RestNode> index = graphRestAPI.getIndex("artifact")
-		IndexHits<RestNode> nodes = index.query(GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(project, ""))
-		nodes.each { node ->
+		IndexHits<RestNode> nodes = index.query(GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(project, "#"))
+		nodes.each { RestNode node ->
 			listNodeDependants(node)
 		} 
 	}

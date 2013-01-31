@@ -14,6 +14,8 @@ class GraphStore extends AbstractDependencyGraphTask {
 
     @TaskAction
     protected void store() {
+        configureAbstractGraphTask(project, this)
+        configureGraphDatabase(this)
         logger.info("Storing dependencies for ${getGroupAndArtifact(project, "#")} - [groupId: ${project.getGroup()}] and [artifactId: ${project.getName()}]")
     	Map<String, String> config = new HashMap<>()
 		config.put("type", "exact")

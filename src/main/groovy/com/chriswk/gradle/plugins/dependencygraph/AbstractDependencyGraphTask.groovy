@@ -1,13 +1,12 @@
 package com.chriswk.gradle.plugins.dependencygraph
 
+import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
-import org.gradle.api.internal.ConventionTask
 import org.neo4j.rest.graphdb.RestAPI
 import org.neo4j.rest.graphdb.RestAPIFacade
-import org.neo4j.rest.graphdb.RestGraphDatabase
 
-class AbstractDependencyGraphTask extends ConventionTask {
+class AbstractDependencyGraphTask extends DefaultTask {
 	String GROUP_ID_AND_ARTIFACT_ID = "groupIdAndArtifactId"
 	String PRETTY_PRINT = "prettyPrint"
 	String COMPLETE_ID = "completeId"
@@ -73,7 +72,11 @@ class AbstractDependencyGraphTask extends ConventionTask {
     }
 
     def configureAbstractGraphTask(final Project project, AbstractDependencyGraphTask task) {
-        logger.info(project.dependencyGraph.toString())
+        println(project.dependencyGraph.graphServerUrl)
+        println(project.dependencyGraph.graphServerPath)
+        println(project.dependencyGraph.graphServerPort)
+        println(project.dependencyGraph.graphServerUsername)
+        println(project.dependencyGraph.graphServerPassword)
         task.setGraphServerUrl(project.dependencyGraph.graphServerUrl)
         task.setGraphServerPath(project.dependencyGraph.graphServerPath)
         task.setGraphServerPort(project.dependencyGraph.graphServerPort)
@@ -85,10 +88,8 @@ class AbstractDependencyGraphTask extends ConventionTask {
         def url = findServerUrl(task)
         logger.info("Creating with url [${url}] with username ${getGraphServerUsername()} and password ${getGraphServerPassword()}")
         if (getGraphServerUsername() == null || getGraphServerUsername().empty) {
-            graphDatabaseService = new RestGraphDatabase(url)
             graphRestAPI = new RestAPIFacade(url)
         } else {
-            graphDatabaseService =  new RestGraphDatabase(url, task.getGraphServerUsername(), task.getGraphServerPassword())
             graphRestAPI = new RestAPIFacade(url, task.getGraphServerUsername(), task.getGraphServerPassword())
         }
     }

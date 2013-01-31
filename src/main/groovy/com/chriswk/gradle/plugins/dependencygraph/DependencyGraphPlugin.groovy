@@ -9,22 +9,11 @@ class DependencyGraphPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project p) {
+
         p.extensions.create("dependencyGraph", DependencyGraphExtension)
-        configureMappingRules(p)
         configureReadDepTask(p)
         configureStoreDepTask(p)
     }
-
-    def configureMappingRules(final Project project) {
-        project.getTasks().withType(AbstractDependencyGraphTask.class, { AbstractDependencyGraphTask task ->
-            task.configureAbstractGraphTask(project, task)
-        })
-        project.getTasks().withType(AbstractDependencyGraphTask.class, { AbstractDependencyGraphTask task ->
-            task.configureGraphDatabase(task)
-        })
-    }
-
-
 
     def configureReadDepTask(Project project) {
         GraphRead graphRead = project.getTasks().add("graphRead", GraphRead.class)

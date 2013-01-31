@@ -11,12 +11,16 @@ class GraphRead extends AbstractDependencyGraphTask {
     @TaskAction
     protected void read() {
         logger.info("Finding dependencies for ${project.getGroup()} ${project.getName()}")
-    	listDependants()
+    	listDependants(findNodes())
 	}
 
-	def listDependants() {
-		RestIndex<RestNode> index = graphRestAPI.getIndex("artifact")
-		IndexHits<RestNode> nodes = index.query(GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(project, "#"))
+    def findNodes() {
+        RestIndex<RestNode> index = graphRestAPI.getIndex("artifact")
+        IndexHits<RestNode> nodes = index.query(GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(project, "#"))
+        nodes
+    }
+	def listDependants(IndexHits<RestNode> nodes) {
+        println "${nodes.size()} nodes found with ${getGroupAndArtifact(project, "#")}"
 		nodes.each { RestNode node ->
 			listNodeDependants(node)
 		} 

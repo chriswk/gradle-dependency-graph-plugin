@@ -17,10 +17,10 @@ class DependencyGraphPlugin implements Plugin<Project> {
 
     def configureMappingRules(final Project project) {
         project.getTasks().withType(AbstractDependencyGraphTask.class, { AbstractDependencyGraphTask task ->
-            configureAbstractGraphTask(project, task)
+            task.configureAbstractGraphTask(project, task)
         })
         project.getTasks().withType(AbstractDependencyGraphTask.class, { AbstractDependencyGraphTask task ->
-            configureGraphDatabase(task)
+            task.configureGraphDatabase(task)
         })
     }
 

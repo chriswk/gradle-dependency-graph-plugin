@@ -3,18 +3,15 @@ package com.chriswk.gradle.plugins.dependencygraph
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.internal.ConventionTask
-import org.neo4j.graphdb.GraphDatabaseService
 import org.neo4j.rest.graphdb.RestAPI
 import org.neo4j.rest.graphdb.RestAPIFacade
 import org.neo4j.rest.graphdb.RestGraphDatabase
-
 
 class AbstractDependencyGraphTask extends ConventionTask {
 	String GROUP_ID_AND_ARTIFACT_ID = "groupIdAndArtifactId"
 	String PRETTY_PRINT = "prettyPrint"
 	String COMPLETE_ID = "completeId"
 	String ARTIFACT = "artifact"
-    GraphDatabaseService graphDatabaseService
     RestAPI graphRestAPI
     Integer graphServerPort
     String graphServerUrl
@@ -22,13 +19,6 @@ class AbstractDependencyGraphTask extends ConventionTask {
     String graphServerUsername
     String graphServerPassword
 
-    GraphDatabaseService getGraphDatabaseService() {
-        return graphDatabaseService
-    }
-
-    void setGraphDatabaseService(GraphDatabaseService graphDatabaseService) {
-        this.graphDatabaseService = graphDatabaseService
-    }
 
     Integer getGraphServerPort() {
         return graphServerPort

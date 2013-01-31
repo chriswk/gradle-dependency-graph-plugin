@@ -121,32 +121,34 @@ class AbstractDependencyGraphTask extends ConventionTask {
         }
     }
 
-	String getGroupAndArtifact(String seperator) {
-		[project.getGroup(), project.getName()].join(seperator)
-	}
-
-    String getArtifactId(String seperator) {
-        [project.getGroup(), project.getName(), project.getVersion()].join(seperator)
-    }
-
     Map<String, Object> getProperties() {
         [
-            "name": getArtifactId(":"),
+            "name": getFullName(project, ":"),
             "groupId": project.getGroup(),
             "artifactId": project.getName(),
             "version": project.getVersion(),
-            "groupIdAndArtifactId": getGroupAndArtifact("#"),
-            PRETTY_PRINT: getArtifactId(":")
+            "groupIdAndArtifactId": getGroupAndArtifact(project, "#"),
+            PRETTY_PRINT: getFullName(project, ":")
         ]
     }
 
-    String getFullName(Dependency d, String separator) {
+    static String getFullName(Project p, String seperator) {
+        [p.getGroup(), p.getName(), p.getVersion()].join(seperator)
+    }
+
+    static String getFullName(Dependency d, String separator) {
         [d.getGroup(), d.getName(), d.getVersion()].join(separator)
     }
 
-    String getGroupAndArtifact(Dependency d, String seperator) {
+    static String getGroupAndArtifact(Project p, String seperator) {
+        [p.getGroup(), p.getName()].join(seperator)
+    }
+
+    static String getGroupAndArtifact(Dependency d, String seperator) {
         [d.getGroup(), d.getName()].join(seperator)
     }
+
+
     Map<String, Object> getProperties(Dependency d) {
         [
                 "name": getFullName(d, ":"),

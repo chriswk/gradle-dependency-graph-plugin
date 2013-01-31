@@ -1,7 +1,7 @@
 package com.chriswk.gradle.plugins.dependencygraph
 
 import org.gradle.api.tasks.TaskAction
-
+import org.neo4j.graphdb.Relationship
 import org.neo4j.rest.graphdb.entity.RestNode
 import org.neo4j.graphdb.Direction
 import org.neo4j.graphdb.index.IndexHits
@@ -15,16 +15,16 @@ class GraphRead extends AbstractDependencyGraphTask {
 	}
 
 	def listDependants() {
-		RestIndex<RestNode> index = restAPI.getIndex("artifact")
-		IndexHits<RestNode> nodes = index.query(GROUP_ID_AND_ARTIFACT_INDEX, getGroupAndArtifact())
+		RestIndex<RestNode> index = graphRestAPI.getIndex("artifact")
+		IndexHits<RestNode> nodes = index.query(GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(project, ""))
 		nodes.each { node ->
 			listNodeDependants(node)
 		} 
 	}
 	
 	def listNodeDependants(RestNode dependency) {
-		dependency.getRelationShips(Direction.INCOMING).each {
-			logger.info(r.getStartNode().getProperty(PRETTY_PRINT) + " -> " +r.getEndNode().getProperty(PRETTY_PRINT))
+		dependency.getRelationships(Direction.INCOMING).each { Relationship rel ->
+			logger.info(rel.getStartNode().getProperty(PRETTY_PRINT) + " -> " +rel.getEndNode().getProperty(PRETTY_PRINT))
 		}
 	}
 }

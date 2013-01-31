@@ -13,7 +13,7 @@ class GraphStore extends AbstractDependencyGraphTask {
 
     @TaskAction
     protected void store() {
-        logger.info("Storing dependencies for ${getGroupAndArtifact()} - [groupId: ${project.getGroup()}] and [artifactId: ${project.getName()}] with node name ${nodeName()}")
+        logger.info("Storing dependencies for ${getGroupAndArtifact(project, "")} - [groupId: ${project.getGroup()}] and [artifactId: ${project.getName()}]")
     	Map<String, String> config = new HashMap<>()
 		config.put("type", "exact")
 		config.put("provider", "lucene")
@@ -25,7 +25,7 @@ class GraphStore extends AbstractDependencyGraphTask {
 	}
 	
 	def getDependencies() {
-		Node projectNode = makeProjectNode(project)
+		Node projectNode = makeProjectNode()
 
         projectNode.getRelationships().each { rel ->
 			rel.delete()
@@ -68,8 +68,8 @@ class GraphStore extends AbstractDependencyGraphTask {
 	Node makeProjectNode() {
 		String completeId = [project.getGroup(), project.getName(), project.getVersion()].join("")
         Node projectNode = graphRestAPI.getOrCreateNode(index, COMPLETE_ID, completeId, getProperties())
-        graphRestAPI.getIndex(ARTIFACT).add(projectNode, GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(""))
-        graphRestAPI.getIndex(ARTIFACT).add(projectNode, COMPLETE_ID, getArtifactId(""))
+        graphRestAPI.getIndex(ARTIFACT).add(projectNode, GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(project, ""))
+        graphRestAPI.getIndex(ARTIFACT).add(projectNode, COMPLETE_ID, getFullName(project, ""))
         return projectNode
 	}
 

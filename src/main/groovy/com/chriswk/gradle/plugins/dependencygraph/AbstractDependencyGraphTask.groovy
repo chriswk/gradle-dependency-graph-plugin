@@ -1,12 +1,12 @@
 package com.chriswk.gradle.plugins.dependencygraph
 
-import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.internal.AbstractTask
 import org.neo4j.rest.graphdb.RestAPI
 import org.neo4j.rest.graphdb.RestAPIFacade
 
-class AbstractDependencyGraphTask extends DefaultTask {
+class AbstractDependencyGraphTask extends AbstractTask {
 	String GROUP_ID_AND_ARTIFACT_ID = "groupIdAndArtifactId"
 	String PRETTY_PRINT = "prettyPrint"
 	String COMPLETE_ID = "completeId"
@@ -89,14 +89,14 @@ class AbstractDependencyGraphTask extends DefaultTask {
         }
     }
 
-    Map<String, Object> getProperties() {
+    Map<String, Object> getPropertyMap(Project p) {
         [
-            "name": getFullName(project, ":"),
-            "groupId": project.getGroup(),
-            "artifactId": project.getName(),
-            "version": project.getVersion(),
-            "groupIdAndArtifactId": getGroupAndArtifact(project, "#"),
-            PRETTY_PRINT: getFullName(project, ":")
+            "name": getFullName(p, ":"),
+            "groupId": p.getGroup(),
+            "artifactId": p.getName(),
+            "version": p.getVersion(),
+            "groupIdAndArtifactId": getGroupAndArtifact(p, "#"),
+            "prettyPrint": getFullName(p, ":")
         ]
     }
 
@@ -117,14 +117,14 @@ class AbstractDependencyGraphTask extends DefaultTask {
     }
 
 
-    Map<String, Object> getProperties(Dependency d) {
+    Map<String, Object> getPropertyMap(Dependency d) {
         [
                 "name": getFullName(d, ":"),
                 "groupId": d.getGroup(),
                 "artifactId": d.getName(),
                 "version": d.getVersion(),
                 "groupIdAndArtifactId": getGroupAndArtifact(d, "#"),
-                PRETTY_PRINT: getFullName(d, ":")
+                "prettyPrint": getFullName(d, ":")
         ]
     }
 }

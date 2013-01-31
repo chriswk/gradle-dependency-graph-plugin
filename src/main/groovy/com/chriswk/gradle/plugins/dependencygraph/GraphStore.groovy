@@ -5,7 +5,6 @@ import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.artifacts.Dependency
 import org.neo4j.graphdb.DynamicRelationshipType
-import org.neo4j.graphdb.RelationshipType
 import org.neo4j.rest.graphdb.index.RestIndex
 import org.neo4j.graphdb.Node;
 
@@ -24,10 +23,10 @@ class GraphStore extends AbstractDependencyGraphTask {
 		
 		index = graphRestAPI.createIndex(Node.class, ARTIFACT, config)
 		
-		getDependencies()
+		getGraphDependencies()
 	}
 	
-	def getDependencies() {
+	def getGraphDependencies() {
         logger.info("Getting dependencies........")
 		Node projectNode = makeProjectNode()
 
@@ -61,19 +60,19 @@ class GraphStore extends AbstractDependencyGraphTask {
     }
 
     Node makeNode(Dependency d) {
-        Node depNode = graphRestAPI.getOrCreateNode(index, COMPLETE_ID, getFullName(d, "#"), getProperties(d))
+        Node depNode = graphRestAPI.getOrCreateNode(index, COMPLETE_ID, getFullName(d, "#"), getPropertyMap(d))
         index.add(depNode, GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(d, "#"))
         return depNode
     }
 
     Node makeNode(Project p) {
-        Node projNode = graphRestAPI.getOrCreateNode(index, COMPLETE_ID, getFullName(p, "#"), getProperties(p))
+        Node projNode = graphRestAPI.getOrCreateNode(index, COMPLETE_ID, getFullName(p, "#"), getPropertyMap(p))
         index.add(projNode, GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(p, "#"))
+        return projNode
     }
 
 	Node makeProjectNode() {
-		String completeId = [project.getGroup(), project.getName(), project.getVersion()].join("#")
-        Node projectNode = graphRestAPI.getOrCreateNode(index, COMPLETE_ID, completeId, getProperties())
+        Node projectNode = graphRestAPI.getOrCreateNode(index, COMPLETE_ID, getFullName(project, "#"), getPropertyMap(project))
         graphRestAPI.getIndex(ARTIFACT).add(projectNode, GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(project, "#"))
         graphRestAPI.getIndex(ARTIFACT).add(projectNode, COMPLETE_ID, getFullName(project, "#"))
         return projectNode

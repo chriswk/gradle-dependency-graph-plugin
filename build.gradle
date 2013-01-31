@@ -19,6 +19,7 @@ apply plugin: 'maven'
 
 group = "com.chriswk.gradle"
 description = "Dependency Graph plugin"
+
 version = "0.1"
 ext.neo4jVersion = "1.8.1"
 repositories {

@@ -19,7 +19,7 @@ class AbstractDependencyGraphTask extends ConventionTask {
     Integer graphServerPort
     String graphServerUrl
     String graphServerPath
-    String graphServerUserName
+    String graphServerUsername
     String graphServerPassword
 
     GraphDatabaseService getGraphDatabaseService() {
@@ -54,12 +54,12 @@ class AbstractDependencyGraphTask extends ConventionTask {
         this.graphServerPath = graphServerPath
     }
 
-    String getGraphServerUserName() {
-        return graphServerUserName
+    String getGraphServerUsername() {
+        return graphServerUsername
     }
 
-    void setGraphServerUserName(String graphServerUserName) {
-        this.graphServerUserName = graphServerUserName
+    void setGraphServerUsername(String graphServerUserName) {
+        this.graphServerUsername = graphServerUserName
     }
 
     String getGraphServerPassword() {
@@ -82,42 +82,24 @@ class AbstractDependencyGraphTask extends ConventionTask {
         "${task.getGraphServerUrl()}:${task.getGraphServerPort()}${task.getGraphServerPath()}"
     }
 
-    def configureAbstractGraphTask(final Project project, final DependencyGraphPluginConvention convention, AbstractDependencyGraphTask task) {
-        logger.info(convention.toString())
-        task.conventionMapping.map("graphServerPort", {
-            convention.getGraphServerPort()
-        })
-        task.conventionMapping.map("graphServerUrl", {
-            convention.getGraphServerUrl()
-        })
-        task.conventionMapping.map("graphServerPath", {
-            convention.getGraphServerPath()
-        })
-        task.conventionMapping.map("graphServerUserName", {
-            convention.getGraphServerUsername()
-        })
-        task.conventionMapping.map("graphServerPassword", {
-            convention.getGraphServerPassword()
-        })
+    def configureAbstractGraphTask(final Project project, AbstractDependencyGraphTask task) {
+        logger.info(project.dependencyGraph.toString())
+        task.setGraphServerUrl(project.dependencyGraph.graphServerUrl)
+        task.setGraphServerPath(project.dependencyGraph.graphServerPath)
+        task.setGraphServerPort(project.dependencyGraph.graphServerPort)
+        task.setGraphServerUsername(project.dependencyGraph.graphServerUsername)
+        task.setGraphServerPassword(project.dependencyGraph.graphServerPassword)
     }
 
     def configureGraphDatabase(AbstractDependencyGraphTask task) {
         def url = findServerUrl(task)
-        logger.info("Creating with url [${url}] with username ${getGraphServerUserName()} and password ${getGraphServerPassword()}")
-        if (getGraphServerUserName() == null || getGraphServerUserName().empty) {
-            task.conventionMapping.map("graphDatabaseService", {
-                new RestGraphDatabase(url)
-            })
-            task.conventionMapping.map("graphRestAPI", {
-                new RestAPIFacade(url)
-            })
+        logger.info("Creating with url [${url}] with username ${getGraphServerUsername()} and password ${getGraphServerPassword()}")
+        if (getGraphServerUsername() == null || getGraphServerUsername().empty) {
+            graphDatabaseService = new RestGraphDatabase(url)
+            graphRestAPI = new RestAPIFacade(url)
         } else {
-            task.conventionMapping.map("graphDatabaseService", {
-                new RestGraphDatabase(url, task.getGraphServerUserName(), task.getGraphServerPassword())
-            })
-            task.conventionMapping.map("graphRestAPI", {
-                new RestAPIFacade(url, task.getGraphServerUserName(), task.getGraphServerPassword())
-            })
+            graphDatabaseService =  new RestGraphDatabase(url, task.getGraphServerUsername(), task.getGraphServerPassword())
+            graphRestAPI = new RestAPIFacade(url, task.getGraphServerUsername(), task.getGraphServerPassword())
         }
     }
 

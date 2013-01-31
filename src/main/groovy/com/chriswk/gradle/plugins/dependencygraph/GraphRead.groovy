@@ -13,13 +13,19 @@ class GraphRead extends AbstractDependencyGraphTask {
     protected void read() {
         configureAbstractGraphTask(project, this)
         configureGraphDatabase(this)
-        logger.info("Finding dependencies for ${project.getGroup()} ${project.getName()}")
-    	listDependants(findNodes())
+        def String dep
+        if (project.getProperties().get("graphDep") != null && !(((String) project.getProperties().get("graphDep")).isEmpty())) {
+            dep = project.getProperties().get("graphDep")
+        } else {
+            dep = getGroupAndArtifact(project, "#")
+        }
+        logger.info("Finding dependencies for ${dep}")
+    	listDependants(findNodes(dep))
 	}
 
-    def findNodes() {
+    def findNodes(String artifactId) {
         RestIndex<RestNode> index = graphRestAPI.getIndex("artifact")
-        IndexHits<RestNode> nodes = index.query(GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(project, "#"))
+        IndexHits<RestNode> nodes = index.query(GROUP_ID_AND_ARTIFACT_ID, artifactId)
         nodes
     }
 	def listDependants(IndexHits<RestNode> nodes) {

@@ -17,12 +17,21 @@ Local environment:
         name "Neo4j Release"
         url "http://m2.neo4j.org/"
       }
+      maven {
+  			name "neo4j Snapshots"
+  		  url "http://m2.neo4j.org/snapshots"
+  		}
     }
     dependencies {
       classpath "com.chriswk.gradle:gradle-dependency-graph-plugin:0.1"
     }
   }
+  
+  apply plugin: 'dependencyGraphPlugin'
+  
 ```
+
+* For full example of working build file see [here](build.gradle.MD)
 
 * to find dependencies of your current project
 ```
@@ -42,7 +51,7 @@ Local environment:
 * This will update your graph database with all dependencies of the current project
 * They will be tagged with which configuration they come from
 
-* Override server settings by creating a dependencygraph closure in your build script
+* Override server settings by creating a dependencyGraph closure in your build script
 * Defaults are in the code example
 ``` groovy
   dependencyGraph {

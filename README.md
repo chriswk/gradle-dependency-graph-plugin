@@ -28,7 +28,6 @@ Local environment:
   }
   
   apply plugin: 'dependencyGraphPlugin'
-  
 ```
 
 * For full example of working build file see [here](build.gradle.MD)

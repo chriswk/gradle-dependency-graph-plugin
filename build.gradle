@@ -1,20 +1,6 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            url 'https://oss.sonatype.org/content/groups/public/'
-        }
-    }
-    dependencies {
-        classpath 'org.ajoberstar:gradle-git:0.2.3'
-    }
-}
-
 apply plugin: 'groovy'
-apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'signing'
-apply plugin: 'github-pages'
 apply plugin: 'maven'
 
 group = "com.chriswk.gradle"
@@ -42,4 +28,72 @@ dependencies {
 
 task wrapper(type: Wrapper) {
 	gradleVersion = 1.4
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+	from sourceSets.main.allSource
+	classifier = 'sources'
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+	classifier = 'groovydoc'
+	from 'build/docs/groovydoc'
+}
+
+artifacts {
+	archives jar
+	archives javadocJar
+	archives sourcesJar
+	archives groovydocJar
+}
+
+signing {
+	sign configurations.archives
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			beforeDeployment {
+				MavenDeployment deployment -> signPom(deployment)
+			}
+			
+			repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+				authentication(userName: sonatypeUsername, password: sonatypePassword)
+			}
+			
+			pom.project {
+				name 'gradle-dependency-graph-plugin'
+				packaging 'jar'
+				description 'Gradle dependency graph plugin interacts with neo4j to create reverse dependency graph'
+				url 'http://chriswk.github.com/gradle-dependency-graph-plugin'
+				scm {
+					url 'http://github.com/chriswk/gradle-dependency-graph-plugin'
+					connection 'scm:git://github.com/chriswk/gradle-dependency-graph-plugin'
+					developerConnection 'scm:git@github.com:chriswk/gradle-dependency-graph-pugin'
+				}
+				
+				licenses {
+					license { 
+						name "The Apache Software License, Version 2.0"
+						url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+						distribution 'repo'
+					}
+				}
+				
+				developers {
+					developer {
+						id 'chrkolst'
+						name 'Christopher Kolstad'
+					}
+				}
+			}
+		}
+	}
+}
 }

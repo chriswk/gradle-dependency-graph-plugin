@@ -7,7 +7,7 @@ Local environment:
 -----------------
 * install neo4j http://www.neo4j.org/develop#install
 * checkout this repo
-* gradle install
+* gradlew install
 * go to another gradle project and add the following to build.gradle
 ``` groovy
   buildscript {
@@ -26,17 +26,17 @@ Local environment:
 
 * to find dependencies of your current project
 ```
-  gradle graphRead
+  gradlew graphRead
 ```
 
 * to find dependencies of for instance spring-core
 ```
- gradle graphRead -PgraphDep="org.springframework#spring-core"
+ gradlew graphRead -PgraphDep="org.springframework#spring-core"
 ```
 
 * When installing into repo make sure to run
 ```
- gradle graphStore
+ gradlew graphStore
 ```
 
 * This will update your graph database with all dependencies of the current project

@@ -39,3 +39,7 @@ dependencies {
     compile gradleApi()
     compile "org.neo4j:neo4j-rest-graphdb:1.8"
 }
+
+task wrapper(type: Wrapper) {
+	gradleVersion = 1.4
+}

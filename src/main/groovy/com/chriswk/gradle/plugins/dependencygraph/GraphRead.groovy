@@ -38,7 +38,7 @@ class GraphRead extends AbstractDependencyGraphTask {
 	def listNodeDependants(RestNode node) {
         println("Finding relationships for ${node.getId()} - ${node.getProperty(GROUP_ID_AND_ARTIFACT_ID)}}")
 		node.getRelationships(Direction.INCOMING).each { Relationship rel ->
-			logger.info(rel.getStartNode().getProperty(PRETTY_PRINT) + " -> " +rel.getEndNode().getProperty(PRETTY_PRINT))
+			println(rel.getStartNode().getProperty(PRETTY_PRINT) + " -> " +rel.getEndNode().getProperty(PRETTY_PRINT))
 		}
 	}
 }

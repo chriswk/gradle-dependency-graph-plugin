@@ -23,18 +23,22 @@ Local environment:
     }
   }
 ```
+
 * to find dependencies of your current project
 ```
   gradle graphRead
 ```
+
 * to find dependencies of for instance spring-core
 ```
  gradle graphRead -PgraphDep="org.springframework#spring-core"
 ```
+
 * When installing into repo make sure to run
 ```
  gradle graphStore
-``` 
+```
+
 * This will update your graph database with all dependencies of the current project
 * They will be tagged with which configuration they come from
 

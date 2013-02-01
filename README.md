@@ -10,29 +10,29 @@ Local environment:
 * gradle install
 * go to another gradle project and add the following to build.gradle
 ``` groovy
-   buildscript {
-      repositories {
-        mavenLocal()
-        maven {
-                name "Neo4j Release"
-                url "http://m2.neo4j.org/"
-        }
-      }
-      dependencies {
-        classpath "com.chriswk.gradle:gradle-dependency-graph-plugin:0.1"
+  buildscript {
+    repositories {
+      mavenLocal()
+      maven {
+        name "Neo4j Release"
+        url "http://m2.neo4j.org/"
       }
     }
+    dependencies {
+      classpath "com.chriswk.gradle:gradle-dependency-graph-plugin:0.1"
+    }
+  }
 ```
 * to find dependencies of your current project
-``` shell
+```
   gradle graphRead
 ```
 * to find dependencies of for instance spring-core
-``` shell
+```
  gradle graphRead -PgraphDep="org.springframework#spring-core"
 ```
 * When installing into repo make sure to run
-``` shell
+```
  gradle graphStore
 ``` 
 * This will update your graph database with all dependencies of the current project

@@ -9,7 +9,7 @@ Local environment:
 * checkout this repo
 * gradle install
 * go to another gradle project and add the following to build.gradle
-```groovy
+``` groovy
    buildscript {
       repositories {
         mavenLocal()
@@ -24,15 +24,15 @@ Local environment:
     }
 ```
 * to find dependencies of your current project
-```shell
+``` shell
   gradle graphRead
 ```
 * to find dependencies of for instance spring-core
-```shell
+``` shell
  gradle graphRead -PgraphDep="org.springframework#spring-core"
 ```
 * When installing into repo make sure to run
-```shell
+``` shell
  gradle graphStore
 ``` 
 * This will update your graph database with all dependencies of the current project

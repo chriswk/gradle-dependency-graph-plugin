@@ -32,12 +32,12 @@ Local environment:
 
 * For full example of working build file see [here](build.gradle.MD)
 
-* to find dependencies of your current project
+* to find modules/artifacts that depend on your current project
 ```
   gradlew graphRead
 ```
 
-* to find dependencies of for instance spring-core
+* to find artifacts that depend on any version of spring-core
 ```
  gradlew graphRead -PgraphDep="org.springframework#spring-core"
 ```

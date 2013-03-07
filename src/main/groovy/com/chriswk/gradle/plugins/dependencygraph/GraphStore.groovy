@@ -30,7 +30,7 @@ class GraphStore extends AbstractDependencyGraphTask {
         logger.info("Getting dependencies........")
 		Node projectNode = makeProjectNode()
 
-        projectNode.getRelationships().each { rel ->
+        projectNode.getRelationships(Direction.OUTGOING).each { rel ->
 			rel.delete()
 		}
 		//Register parent dependency

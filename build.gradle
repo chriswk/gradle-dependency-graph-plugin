@@ -5,7 +5,17 @@ apply plugin: 'maven'
 
 group = "com.chriswk.gradle"
 description = "Dependency Graph plugin"
-
+buildscript {
+	repositories {
+		maven {
+			url "http://dl.bintray.com/content/bintray/jcenter"
+			name "Bintray JCenter mirror"
+		}
+	}
+	dependencies {
+		classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.6'
+	}
+}
 version = "0.1"
 ext.neo4jVersion = "1.8.1"
 repositories {
@@ -18,6 +28,10 @@ repositories {
         name "neo4j Snapshots"
         url "http://m2.neo4j.org/snapshots"
     }
+	maven {
+		url "http://dl.bintray.com/content/chriswk/gradle-plugin"
+		name "chriswk bintray"
+	}
 }
 
 dependencies {
@@ -58,42 +72,12 @@ signing {
 
 uploadArchives {
 	repositories {
-		mavenDeployer {
-			beforeDeployment {
-				MavenDeployment deployment -> signPom(deployment)
-			}
-			
-			repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-				authentication(userName: sonatypeUsername, password: sonatypePassword)
-			}
-			
-			pom.project {
-				name 'gradle-dependency-graph-plugin'
-				packaging 'jar'
-				description 'Gradle dependency graph plugin interacts with neo4j to create reverse dependency graph'
-				url 'http://chriswk.github.com/gradle-dependency-graph-plugin'
-				scm {
-					url 'http://github.com/chriswk/gradle-dependency-graph-plugin'
-					connection 'scm:git://github.com/chriswk/gradle-dependency-graph-plugin'
-					developerConnection 'scm:git@github.com:chriswk/gradle-dependency-graph-pugin'
-				}
-				
-				licenses {
-					license { 
-						name "The Apache Software License, Version 2.0"
-						url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-						distribution 'repo'
-					}
-				}
-				
-				developers {
-					developer {
-						id 'chrkolst'
-						name 'Christopher Kolstad'
-					}
-				}
+		ivy {
+			url = bintray_api_base_url + '/content/' + bintray_username + '/' + bintray_repo + '/' + bintray_package + '/' + version
+			credentials {
+				username bintray_username
+				password bintray_api_key
 			}
 		}
 	}
-}
 }

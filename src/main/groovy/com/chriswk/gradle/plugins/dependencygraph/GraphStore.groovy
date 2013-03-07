@@ -6,7 +6,8 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.api.artifacts.Dependency
 import org.neo4j.graphdb.DynamicRelationshipType
 import org.neo4j.rest.graphdb.index.RestIndex
-import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Node
+import org.neo4j.graphdb.Direction
 
 class GraphStore extends AbstractDependencyGraphTask {
     RestIndex<Node> index;

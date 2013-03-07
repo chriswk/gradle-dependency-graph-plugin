@@ -72,12 +72,37 @@ signing {
 
 uploadArchives {
 	repositories {
-		ivy {
-			url = bintray_api_base_url + '/content/' + bintray_username + '/' + bintray_repo + '/' + bintray_package + '/' + version
-			credentials {
-				username bintray_username
-				password bintray_api_key
+		mavenDeployer {
+			repository(url: bintray_api_base_url + "/" + bintray_username + "/" + bintray_repo + "/" + bintray_package) {
+				authentication(userName: bintray_username, password: bintray_api_key)
 			}
-		}
+
+			pom.project {
+				name 'gradle-dependency-graph-plugin'
+				packaging 'jar'
+				description 'Gradle dependency graph plugin interacts with neo4j to create reverse dependency graph'
+				url 'http://chriswk.github.com/gradle-dependency-graph-plugin'
+				scm {
+					url 'http://github.com/chriswk/gradle-dependency-graph-plugin'
+					connection 'scm:git://github.com/chriswk/gradle-dependency-graph-plugin'
+					developerConnection 'scm:git@github.com:chriswk/gradle-dependency-graph-pugin'
+				}
+
+				licenses {
+					license {
+						name "The Apache Software License, Version 2.0"
+						url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+						distribution 'repo'
+					}
+				}
+
+				developers {
+					developer {
+						id 'chrkolst'
+						name 'Christopher Kolstad'
+					}
+				}
+			}
+        }
 	}
 }

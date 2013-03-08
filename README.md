@@ -12,7 +12,10 @@ Local environment:
 ``` groovy
   buildscript {
     repositories {
-      mavenLocal()
+      maven {
+        name "chriswk gradle plugins"
+        url "http://dl.bintray.com/content/chriswk/gradle-plugin"
+      }
       maven {
         name "Neo4j Release"
         url "http://m2.neo4j.org/"
@@ -23,7 +26,7 @@ Local environment:
   		}
     }
     dependencies {
-      classpath "com.chriswk.gradle:gradle-dependency-graph-plugin:0.1"
+      classpath "com.chriswk.gradle:gradle-dependency-graph-plugin:0.1.1"
     }
   }
   

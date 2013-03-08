@@ -1,7 +1,7 @@
 buildscript {
 	repositories {
 		mavenCentral()
-		mavenLocal()
+		url "http://dl.bintray.com/content/chriswk/gradle-plugin"
 		maven {
 			name "Neo4j Release"
 		    url "http://m2.neo4j.org/"

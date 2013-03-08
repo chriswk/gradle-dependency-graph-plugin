@@ -100,20 +100,20 @@ class AbstractDependencyGraphTask extends AbstractTask {
         ]
     }
 
-    static String getFullName(Project p, String seperator) {
-        [p.getGroup(), p.getName(), p.getVersion()].join(seperator)
+    static String getFullName(Project p, String separator) {
+        [p.getGroup(), p.getName(), p.getVersion()].join(separator)
     }
 
     static String getFullName(Dependency d, String separator) {
         [d.getGroup(), d.getName(), d.getVersion()].join(separator)
     }
 
-    static String getGroupAndArtifact(Project p, String seperator) {
-        [p.getGroup(), p.getName()].join(seperator)
+    static String getGroupAndArtifact(Project p, String separator) {
+        [p.getGroup(), p.getName()].join(separator)
     }
 
-    static String getGroupAndArtifact(Dependency d, String seperator) {
-        [d.getGroup(), d.getName()].join(seperator)
+    static String getGroupAndArtifact(Dependency d, String separator) {
+        [d.getGroup(), d.getName()].join(separator)
     }
 
 

@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    groovy localGroovy()
+    compile localGroovy()
     compile gradleApi()
     compile "org.neo4j:neo4j-rest-graphdb:${neo4jVersion}"
 }

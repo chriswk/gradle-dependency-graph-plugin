@@ -7,16 +7,18 @@ group = "com.chriswk.gradle"
 description = "Dependency Graph plugin"
 buildscript {
 	repositories {
-		maven {
-			url "http://dl.bintray.com/content/bintray/jcenter"
+        maven {
+            url "http://jcenter.bintray.com"
 			name "Bintray JCenter mirror"
-		}
+        }
 	}
 	dependencies {
 		classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.6'
 	}
 }
-version = "0.2"
+
+
+version = "0.3"
 ext.neo4jVersion = "2.0.0"
 ext.jerseyVersion = "1.9.1"
 repositories {
@@ -72,6 +74,7 @@ artifacts {
 signing {
 	sign configurations.archives
 }
+
 
 uploadArchives {
 	repositories {

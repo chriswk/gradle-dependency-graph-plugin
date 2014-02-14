@@ -38,7 +38,7 @@ Local environment:
   		}
     }
     dependencies {
-      classpath "com.chriswk.gradle:gradle-dependency-graph-plugin:0.1.1"
+      classpath "com.chriswk.gradle:gradle-dependency-graph-plugin:0.2"
     }
   }
   

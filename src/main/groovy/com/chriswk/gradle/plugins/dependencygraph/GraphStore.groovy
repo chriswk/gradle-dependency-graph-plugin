@@ -43,10 +43,11 @@ class GraphStore extends AbstractDependencyGraphTask {
         }
         project.getConfigurations().each { Configuration config ->
             logger.info("Registering for ${config.name}")
-            config.getDependencies().each { Dependency dep ->
+            config.getAllDependencies().each { Dependency dep ->
                 logger.info("Registering ${dep.name}")
                 registerDependency(projectNode, dep, config.getName())
             }
+
         }
 
     }
@@ -89,10 +90,19 @@ class GraphStore extends AbstractDependencyGraphTask {
             groupNode.addLabel(MavenLabel.GROUP)
         }
         groupNode.createRelationshipTo(artifactNode, DynamicRelationshipType.withName("PRODUCES"))
+        groupNode
+    }
+
+    def addLabel(Node node, Label label) {
+        if (!node.hasLabel(label)) {
+            node.addLabel(label)
+        }
     }
 
     Node makeProjectNode() {
         Node projectNode = graphRestAPI.getOrCreateNode(index, COMPLETE_ID, getFullName(project, "#"), getPropertyMap(project))
+        addLabel(projectNode, MavenLabel.ARTIFACT)
+        addLabel(projectNode, GradleLabel.GRADLE)
         graphRestAPI.getIndex(ARTIFACT).add(projectNode, GROUP_ID_AND_ARTIFACT_ID, getGroupAndArtifact(project, "#"))
         graphRestAPI.getIndex(ARTIFACT).add(projectNode, COMPLETE_ID, getFullName(project, "#"))
         return projectNode

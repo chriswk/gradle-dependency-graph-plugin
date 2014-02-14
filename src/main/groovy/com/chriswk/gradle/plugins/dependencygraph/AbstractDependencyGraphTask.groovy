@@ -13,6 +13,9 @@ class AbstractDependencyGraphTask extends AbstractTask {
         ARTIFACT,
         GROUP
     }
+    enum GradleLabel implements Label {
+        GRADLE
+    }
     String GROUP = "group"
     String PRETTY_PRINT = "prettyPrint"
 	String COMPLETE_ID = "completeId"

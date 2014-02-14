@@ -16,17 +16,17 @@ buildscript {
 		classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.6'
 	}
 }
-version = "0.1.1"
-ext.neo4jVersion = "1.8.1"
+version = "0.2"
+ext.neo4jVersion = "2.0.0"
 repositories {
     mavenCentral()
     maven {
         name "Neo4j Release"
-        url "http://m2.neo4j.org/"
+        url "http://m2.neo4j.org/content/repositories/releases/"
     }
     maven {
         name "neo4j Snapshots"
-        url "http://m2.neo4j.org/snapshots"
+        url "http://m2.neo4j.org/content/repositories/snapshots/"
     }
 	maven {
 		url "http://dl.bintray.com/content/chriswk/gradle-plugin"
@@ -37,11 +37,11 @@ repositories {
 dependencies {
     groovy localGroovy()
     compile gradleApi()
-    compile "org.neo4j:neo4j-rest-graphdb:1.8"
+    compile "org.neo4j:neo4j-rest-graphdb:${neo4jVersion}"
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = 1.4
+	gradleVersion = 1.11
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {

@@ -1,5 +1,17 @@
 Gradle dependency mapper
 ========================
+Development
+-----------
+* You'll need the following properties in gradle.properties
+bintray_api_base_url=https://api.bintray.com
+bintray_username=Your bintray username
+bintray_api_key=Your bintray api key
+bintray_repo=bintrayrepo
+bintray_package=gradle-dependency-graph-plugin
+signing.keyId=yourgpgkeyid
+signing.password=yourgpgpassphrase
+signing.secretKeyRingFile=pathtosecring.gpg
+
 Stores dependency relationships in a graph database (neo4j)
 -----------------------------------------------------------
 

@@ -16,13 +16,13 @@ class DependencyGraphPlugin implements Plugin<Project> {
     }
 
     def configureReadDepTask(Project project) {
-        GraphRead graphRead = project.getTasks().add("graphRead", GraphRead.class)
+        GraphRead graphRead = project.getTasks().create("graphRead", GraphRead.class)
         graphRead.setDescription("Finds artifacts that uses me as a dependency")
         graphRead.setGroup("Dependency Management")
     }
 
     def configureStoreDepTask(Project project) {
-        GraphStore graphStore = project.getTasks().add("graphStore", GraphStore.class)
+        GraphStore graphStore = project.getTasks().create("graphStore", GraphStore.class)
         graphStore.setDescription("Saves me and all artifacts I use")
         graphStore.setGroup("Dependency Management")
 

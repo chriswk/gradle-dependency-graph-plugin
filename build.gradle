@@ -18,6 +18,7 @@ buildscript {
 }
 version = "0.2"
 ext.neo4jVersion = "2.0.0"
+ext.jerseyVersion = "1.9.1"
 repositories {
     mavenCentral()
     maven {
@@ -38,6 +39,8 @@ dependencies {
     compile localGroovy()
     compile gradleApi()
     compile "org.neo4j:neo4j-rest-graphdb:${neo4jVersion}"
+    compile "com.sun.jersey:jersey-core:${jerseyVersion}"
+    compile "com.sun.jersey:jersey-server:${jerseyVersion}"
 }
 
 task wrapper(type: Wrapper) {

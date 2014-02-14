@@ -3,12 +3,18 @@ package com.chriswk.gradle.plugins.dependencygraph
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.internal.AbstractTask
+import org.neo4j.graphdb.Label
 import org.neo4j.rest.graphdb.RestAPI
 import org.neo4j.rest.graphdb.RestAPIFacade
 
 class AbstractDependencyGraphTask extends AbstractTask {
 	String GROUP_ID_AND_ARTIFACT_ID = "groupIdAndArtifactId"
-	String PRETTY_PRINT = "prettyPrint"
+    enum MavenLabel implements Label {
+        ARTIFACT,
+        GROUP
+    }
+    String GROUP = "group"
+    String PRETTY_PRINT = "prettyPrint"
 	String COMPLETE_ID = "completeId"
 	String ARTIFACT = "artifact"
     RestAPI graphRestAPI
